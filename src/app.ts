@@ -1,12 +1,14 @@
 import Express from "express";
 
+require('dotenv').config();
+
 const app = Express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.get('/', (req, res) => {
     res.send('Hola mundo');
 });
 
 app.listen(port, () => {
-    return console.error('No responde, vaya y revise algo, pero corra!!!')
+    return console.error('Puerto usado ${port}')
 });
