@@ -37,3 +37,27 @@ export const getCategoriesById = async (req: Request, res:Response): Promise<Res
     }
 };
 
+export const createCategories = async (req: Request, res:Response): Promise<Response> => {
+    const {categoryId, categoryName, categoryDescription} = req.body;
+
+    if (categoryId !== null && categoryName !== null && categoryDescription !== null) {
+        try {
+            await pool.query('INSERT INTO categories (category_id, category_name, description) values ($1, $2, $3)',
+                [categoryId, categoryName, categoryDescription]
+            );
+            return res.status(201).json({
+                message: 'Categoria creada satisfactoriamente',
+                category: {
+                    categoryId,
+                    categoryName,
+                    categoryDescription,
+                }
+            });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json('Internal Server Error');
+        }
+    } else {
+        return res.status(500).json('Internal Server Error');
+    }
+};
