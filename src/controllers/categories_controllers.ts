@@ -1,6 +1,6 @@
 import { QueryResult } from "pg";
 import pool from "../database/databaseconnect";
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 
 /**
  * Obtiene todos los datos de la tabla Categories
@@ -60,4 +60,55 @@ export const createCategories = async (req: Request, res:Response): Promise<Resp
     } else {
         return res.status(500).json('Internal Server Error');
     }
+};
+
+/**
+ * Función para eliminar categorias
+ * @param req 
+ * @param res 
+ * @returns 
+ */
+export const deleteCategories = async (req: Request, res:Response): Promise<Response> => {
+
+    const id = parseInt(req.params.id);
+
+    try {
+        await pool.query('DELETE FROM categories WHERE category_id = $1', [id]);
+
+        return res.status(200).json(`La categoria ${id} fue borrada satisfactoriamente.`);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json('Internal Server Error');
+    }
+};
+
+/**
+ * Actualizacion de categoria por Id
+ * @param req 
+ * @param res 
+ * @returns 
+ */
+export const updateCategories = async (req: Request, res:Response): Promise<Response> => {
+
+    const id = parseInt(req.params.id);
+    const {categoryName, categoryDescription} = req.body;
+
+    try {
+        await pool.query('UPDATE categories SET category_name = $1, description = $2 WHERE category_id = $3',
+            [categoryName, categoryDescription, id]
+        );
+
+        return res.json({
+            Message: 'Categoria actualizada satisfactoriamente',
+            category: {
+                id,
+                categoryName,
+                categoryDescription,
+            }
+        })
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json('Internal Server Error');
+    }
+
 };
