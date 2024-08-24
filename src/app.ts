@@ -2,7 +2,8 @@ import Express, { Router } from "express";
 import bodyParser from "body-parser";
 import pool from "./database/databaseconnect";
 import { createCategories, getCategories, getCategoriesById, updateCategories, deleteCategories } from "./controllers/categories_controllers";
-import { authenticateToken, generateToken } from "./controllers/user_controller";
+import { generateToken } from "./controllers/user_controller";
+import { authenticateToken } from "./middleware/authorization";
 
 require('dotenv').config();
 
