@@ -4,7 +4,7 @@ import pool from "./database/databaseconnect";
 import { createCategories, getCategories, getCategoriesById, updateCategories, deleteCategories } from "./controllers/categories_controllers";
 import { generateToken } from "./controllers/user_controller";
 import { authenticateToken } from "./middleware/authorization";
-import { getCustomers } from "./controllers/cuestomers_controller";
+import { getCustomers, getCustomersById } from "./controllers/cuestomers_controller";
 import { errorHandler } from "./middleware/error";
 
 
@@ -24,6 +24,7 @@ categoriesRouter.delete('/deleteCategories/:id', authenticateToken, deleteCatego
 categoriesRouter.put('/updateCategories/:id', authenticateToken, updateCategories);
 userRoutes.post('/api/login', generateToken);
 customersRouters.get('/customers', getCustomers);
+customersRouters.get('/customers/:id', getCustomersById);
 
 
 app.use(Express.json());

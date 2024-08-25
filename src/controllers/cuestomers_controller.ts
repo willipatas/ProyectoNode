@@ -17,7 +17,7 @@ export const getCustomers = async (req: Request, res: Response): Promise<Respons
 export const getCustomersById = async (req: Request, res: Response): Promise<Response> => {
     const id = req.params.id;
     try {
-        const response: QueryResult = await pool.query('SELECT * FROM customers WHERE id = $1;', [id]);
+        const response: QueryResult = await pool.query('SELECT * FROM customers WHERE customer_id = $1;', [id]);
         return res.status(200).json(response.rows);
     } catch (error) {
         console.error(error);
